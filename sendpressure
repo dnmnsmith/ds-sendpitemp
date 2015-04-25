@@ -1,0 +1,51 @@
+#!/usr/bin/perl
+use Getopt::Long;
+
+use strict;
+
+my $notify="/usr/local/bin/notifyEvent";
+-x $notify or die "Can't run $notify";
+
+my $location="Outside";
+
+my $going = 1;
+my $server="webpi";
+my $port=7004;
+my $verbose =0;
+
+sub catch_sig {
+  my $signame = shift;
+  $going= 0;
+}
+
+$SIG{INT} = \&catch_sig;  # best strategy
+
+sub sendPressure()
+{
+  my $value=qx(getPressure);
+  chomp $value;
+
+  $value =~ s/Pressure = (.*) mbar/$1/;
+
+  print "$value\n";
+  my $cmd="$notify -v $value -m Pressure -l $location -p $port -s $server";
+  print "$cmd\n";
+  qx($cmd);
+}
+
+
+GetOptions ( "port=i" => \$port, # numeric
+             "server=s" => \$server, # string
+             "verbose" => \$verbose) # flag
+or die("Error in command line arguments\n");
+
+while($going)
+{
+    sendPressure();
+    my $t=300;
+    while($going and ($t > 0))
+    {
+     $t-=sleep $t;
+    }
+}
+
