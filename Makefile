@@ -1,4 +1,4 @@
-EXE=sendpitemp sendpressure readExtTemp.py sendExtTemp
+EXE=sendpitemp sendpressure readExtTemp sendExtTemp
 DAEMON=sendpitempd sendpressured sendExtTempd
 INSTALLDIR=/usr/local/bin
 

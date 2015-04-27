@@ -23,7 +23,7 @@ $SIG{INT} = \&catch_sig;  # best strategy
 
 sub sendTemp()
 {
-  my $reading=qx(/usr/local/bin/readExtTemp.py);
+  my $reading=qx(/usr/local/bin/readExtTemp);
   chomp $reading;
 
   print "$reading\n";
