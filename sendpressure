@@ -25,9 +25,9 @@ sub sendPressure()
   my $value=qx(getPressure);
   chomp $value;
 
-  $value =~ s/Pressure = (.*) mbar/$1/;
+  $value =~ s/Pressure = (\d+)\.?\d* mbar/$1/;
 
-  print "$value\n";
+#  print "$value\n";
   my $cmd="$notify -v $value -m Pressure -l $location -p $port -s $server";
   print "$cmd\n";
   qx($cmd);

@@ -23,13 +23,17 @@ $SIG{INT} = \&catch_sig;  # best strategy
 
 sub sendTemp()
 {
-  my $temp=qx(/usr/local/bin/readExtTemp);
-  chomp $temp ;
+  my $reading=qx(/usr/local/bin/readExtTemp.py);
+  chomp $reading;
 
-  if ($temp =~ /^(.*)\s(.*)$/)
+  print "$reading\n";
+
+  if ($reading =~ /^(.*)\s(.*)$/)
   {
-    #print "$temp\n";
-    my $cmd="$notify -v $2 -c $1 -p $port -s $server";
+    my $sensorid=$1;
+    my $temp = $2;
+    $temp =~ s/(-?\d+\.\d)\d*/\1/;
+    my $cmd="$notify -v $temp -c $sensorid -p $port -s $server";
     print "$cmd\n";
     qx($cmd);
   }
