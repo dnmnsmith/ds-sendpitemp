@@ -9,8 +9,8 @@ my $notify="/usr/local/bin/notifyEvent";
 my $location="Outside";
 
 my $going = 1;
-my $server="webpi";
-my $port=7004;
+my $server="webpi2";
+my $port=50051;
 my $verbose =0;
 
 sub catch_sig {
